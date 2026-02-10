@@ -7,7 +7,7 @@
 
 :root {
     --primary-color: #1e3a8a;
-    --secondary-color: #2563eb;
+    --secondary-color: #ea580c;
     --accent-color: #f59e0b;
     --dark-color: #0f172a;
     --light-color: #f8fafc;
@@ -259,7 +259,7 @@ section {
 .hero-section {
     position: relative;
     padding: 40px 0 32px;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
     overflow: hidden;
 }
 
@@ -294,8 +294,9 @@ section {
     height: 40vw;
     max-width: 520px;
     max-height: 520px;
-    background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80');
-    opacity: 0.08;
+    background-image: url('../assets/images/background.webp');
+    opacity: 0.16;
+    background-position: left bottom;
 }
 .hero-bg-2 {
     right: -30px;
@@ -304,8 +305,47 @@ section {
     height: 32vw;
     max-width: 420px;
     max-height: 420px;
-    background-image: url('https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80');
-    opacity: 0.08;
+    background-image: url('../assets/images/placements/8.png');
+    opacity: 0.14;
+    background-position: right top;
+}
+
+@media (max-width: 1024px) {
+    .hero-bg-1 {
+        left: -24px;
+        width: 44vw;
+        height: 44vw;
+        opacity: 0.14;
+    }
+
+    .hero-bg-2 {
+        right: -20px;
+        width: 36vw;
+        height: 36vw;
+        opacity: 0.12;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-bg-1 {
+        left: -12px;
+        bottom: 8px;
+        width: 48vw;
+        height: 48vw;
+        max-width: 300px;
+        max-height: 300px;
+        opacity: 0.12;
+    }
+
+    .hero-bg-2 {
+        right: -10px;
+        top: 6px;
+        width: 42vw;
+        height: 42vw;
+        max-width: 230px;
+        max-height: 230px;
+        opacity: 0.1;
+    }
 }
 
 .hero-content { position: relative; z-index: 1; }
@@ -487,7 +527,7 @@ section {
     outline: none;
     border-color: var(--secondary-color);
     background-color: white;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15);
 }
 
 .form-group i {
@@ -630,7 +670,7 @@ section {
 
 /* Programmes Section */
 .programmes-section {
-    background-color: #f8fafc;
+    background-color: #fffaf5;
 }
 
 /* Rankings (Single Row Cards) */
@@ -1055,7 +1095,7 @@ section {
     display: inline-block;
     width: 42px;
     height: 3px;
-    background: #4f7cff;
+    background: var(--secondary-color);
     border-radius: 2px;
     margin-bottom: 14px;
 }
@@ -1410,7 +1450,7 @@ section {
 .sticky-btn.primary {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
 }
 
 .sticky-btn.secondary {
@@ -1429,7 +1469,7 @@ section {
 }
 
 .sticky-btn.primary:hover {
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+    box-shadow: 0 6px 16px rgba(234, 88, 12, 0.38);
 }
 
 .sticky-btn.secondary:hover {
@@ -1574,7 +1614,7 @@ section {
     outline: none;
     border-color: var(--secondary-color);
     background-color: white;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15);
 }
 
 .modal-form .form-group i {

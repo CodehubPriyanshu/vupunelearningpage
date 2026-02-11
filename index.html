@@ -1,3 +1,61 @@
+<!-- <?php
+    session_start();
+   
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    
+    
+   //  include('conn.php');
+   $utm_source = isset($_GET["utm_source"]) ? $_GET["utm_source"] : "Web";
+   $err ="";
+   $ses = "";
+   if (!empty($_POST)) {
+     $name=$_POST['name'];
+     $_SESSION["name"]=$_POST['name'];
+     $_SESSION["email"]=$_POST['email'];
+     $_SESSION["mobile"]=$_POST['mobile'];
+     $_SESSION["state"]=$_POST['state'];
+     $_SESSION["city"]=$_POST['city'];
+     $_SESSION["course"]=$_POST['course'];
+     $_SESSION["batch"]=$_POST['batch'];
+     $_SESSION["status"]=$_POST['status'];
+     $_SESSION["utm_source_input"]=$_POST['utm_source_input'];
+
+      $data = array(
+         "name" => $_SESSION["name"],
+         "email" => $_SESSION["email"],
+         "mobile" => $_SESSION["mobile"],
+         "state" => $_SESSION["state"],
+         "city" => $_SESSION["city"],
+         "course" => $_SESSION["course"],
+         "batch" => $_SESSION["batch"],
+         "status" => $_SESSION["status"],
+         "utm_source_input" => $_SESSION["utm_source_input"],
+         "date_time" => date("Y-m-d H:i:s")
+      );
+
+      $data_string = json_encode($data);
+
+      // Initialize cURL session
+      $curl = curl_init('https://webhooks.integrately.com/a/webhooks/d50c5f3fda324db09b806ff2902d23ec');
+      curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+      curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+         'Content-Type: application/json',
+         'Content-Length: ' . strlen($data_string)
+      ));
+
+      // Execute cURL request and capture response
+      $response = curl_exec($curl);
+      curl_close($curl);
+
+     echo "<script>window.location.href='register.php';</script>";
+     $_POST="";
+   }
+?> -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +94,7 @@
                     <a href="#">
                         <img src="assets/images/logo.png" alt="Vishwakarma University Logo">
                         <div class="logo-text">
-                            <h1>VISHWAKARMA UNIVERSITY</h1>
+                            <!-- <h1>VISHWAKARMA UNIVERSITY</h1> -->
                             <!-- <p>Maximising Human Potential</p> -->
                         </div>
                     </a>
@@ -66,15 +124,12 @@
 
     <!-- Hero Section -->
     <section class="hero-section" id="home">
-        <div class="hero-bg">
-            <div class="hero-bg-layer hero-bg-1" aria-hidden="true"></div>
-            <div class="hero-bg-layer hero-bg-2" aria-hidden="true"></div>
-        </div>
         <div class="container">
             <div class="hero-content compact">
                 <div class="hero-left">
-                    <h2 class="hero-title">Admissions Open for 2026 Batch</h2>
-                    <p class="hero-subtitle">Join India's Premier University for Innovation & Excellence</p>
+                    <h2 class="hero-title">Shape Your Future at Vishwakarma University</h2>
+                    <p class="hero-subtitle">Admissions Open for 2026 Batch</p>
+                    <p class="hero-program-line">B.Tech | BBA | MBA | LLB | BBA and other UG & PG Programs</p>
 
                     <!-- Hero Statistic Cards Grid (4/2/1) -->
                     <div class="hero-stats-cards">
@@ -84,60 +139,106 @@
                         <div class="hero-card"><div class="card-num">300+</div><div class="card-label">Companies Visited</div></div>
                     </div>
                 </div>
-                
+
                 <div class="hero-right">
-                    <div class="admission-card compact">
-                        <h3>Apply for Admission 2026</h3>
-                        <p>Begin your journey towards excellence</p>
-                        
-                        <form id="admissionForm">
-                            <div class="form-group">
-                                <input type="text" id="fullName" placeholder="Full Name" required>
-                                <i class="fas fa-user"></i>
-                            </div>
-                            
-                            <div class="form-group">
-                                <input type="email" id="email" placeholder="Email Address" required>
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            
-                            <div class="form-group">
-                                <input type="tel" id="mobile" placeholder="Mobile Number" required>
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            
-                            <div class="form-group">
-                                <select id="programme" required>
-                                    <option value="" disabled selected>Select Programme</option>
-                                    <option value="art-design">Art & Design</option>
-                                    <option value="architecture">Architecture</option>
-                                    <option value="commerce">Commerce & Management</option>
-                                    <option value="humanities">Humanities & Social Sciences</option>
-                                    <option value="law">Law</option>
-                                    <option value="media">Media & Communication</option>
-                                    <option value="pharmacy">Pharmacy</option>
-                                    <option value="science">Science & Technology</option>
-                                </select>
-                                <i class="fas fa-graduation-cap"></i>
-                            </div>
-                            
-                            <div class="form-group">
-                                <select id="level" required>
-                                    <option value="" disabled selected>Study Level</option>
-                                    <option value="ug">Undergraduate</option>
-                                    <option value="pg">Postgraduate</option>
-                                    <option value="phd">PhD/Doctoral</option>
-                                </select>
-                                <i class="fas fa-university"></i>
-                            </div>
-                            
-                            <button type="submit" class="btn-apply">
-                                <span>Apply Now</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
+    <div class="admission-card compact">
+        <h3>Admissions Open for 2026 Batch</h3>
+        <p>Begin your journey towards excellence</p>
+        
+        <form id="admissionForm" method="POST" autocomplete="off">
+            
+            <input type="hidden" name="utm_source_input" value="<?php echo $utm_source; ?>">
+            <input type="hidden" name="status" value="application not submitted">
+            <input type="hidden" name="batch" value="2026 Batch">
+
+            <div class="form-group">
+                <input type="text" id="fullName" name="name" placeholder="Full Name" required>
+                <i class="fas fa-user"></i>
+            </div>
+            
+            <div class="form-group">
+                <input type="email" id="email" name="email" placeholder="Email Address" required>
+                <i class="fas fa-envelope"></i>
+            </div>
+            
+            <div class="form-group">
+                <input type="tel" id="mobile" name="mobile" placeholder="Mobile Number" required>
+                <i class="fas fa-phone"></i>
+            </div>
+            
+            <div class="form-group">
+                <select id="state" name="state" required>
+                    <option value="">Select State</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                    <option value="Daman and Diu">Daman and Diu</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Manipur">Manipur</option>
+                    <option value="Meghalaya">Meghalaya</option>
+                    <option value="Mizoram">Mizoram</option>
+                    <option value="Nagaland">Nagaland</option>
+                    <option value="Orissa">Orissa</option>
+                    <option value="Puducherry">Puducherry</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Tripura">Tripura</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="Uttarakhand">Uttarakhand</option>
+                    <option value="West Bengal">West Bengal</option>
+                </select>
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+            
+            <div class="form-group">
+                <select id="city" name="city" required>
+                    <option value="" disabled selected>Select City</option>
+                </select>
+                <i class="fas fa-city"></i>
+            </div>
+
+            <div class="form-group">
+                <select id="course" name="course" required>
+                    <option value="" disabled selected>Select Course</option>
+                    <option value="B.Tech">B.Tech</option>
+                    <option value="BBA">BBA</option>
+                    <option value="MBA">MBA</option>
+                    <option value="LLB">LLB</option>
+                    <option value="BA LLB">BA LLB</option>
+                    <option value="BBA LLB">BBA LLB</option>
+                    <option value="M.Tech">M.Tech</option>
+                    <option value="MCA">MCA</option>
+                    <option value="B.Pharm">B.Pharm</option>
+                    <option value="M.Pharm">M.Pharm</option>
+                </select>
+                <i class="fas fa-book"></i>
+            </div>
+            
+            <button type="submit" class="btn-apply">
+                <span>Apply Now</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+
             </div>
         </div>
     </section>
@@ -176,6 +277,19 @@
         </div>
     </section>
 
+    <!-- Awards & Recognitions Section -->
+    <section class="awards-section">
+        <div class="container">
+            <div class="awards-strip" aria-label="Awards and Recognitions">
+                <img src="assets/images/awards/1.png" alt="Award 1" class="award-image">
+                <img src="assets/images/awards/2.png" alt="Award 2" class="award-image">
+                <img src="assets/images/awards/3.png" alt="Award 3" class="award-image">
+                <img src="assets/images/awards/4.png" alt="Award 4" class="award-image">
+                <img src="assets/images/awards/5.png" alt="Award 5" class="award-image">
+            </div>
+        </div>
+    </section>
+
     <!-- VU Advantage Section -->
     <section class="advantages-section">
         <div class="container">
@@ -185,10 +299,26 @@
             <div class="advantages-grid">
                 <div class="advantage-card">
                     <div class="advantage-icon">
-                        <i class="fas fa-campus"></i>
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>Academics</h3>
+                    <p>An academic environment that is designed to inspire, support, and empower students.</p>
+                </div>
+
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Achievements</h3>
+                    <p>Achievements that testify to our consistent quest for excellence.</p>
+                </div>
+
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-building-columns"></i>
                     </div>
                     <h3>Campus</h3>
-                    <p>A beautiful campus that inspires greatness with state-of-the-art infrastructure and facilities.</p>
+                    <p>A beautiful campus that inspires greatness.</p>
                 </div>
                 
                 <div class="advantage-card">
@@ -196,7 +326,7 @@
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                     <h3>Events</h3>
-                    <p>Events and activities to nurture the eclectic taste of our students and foster holistic development.</p>
+                    <p>Events and activities to nurture the eclectic taste of our students.</p>
                 </div>
                 
                 <div class="advantage-card">
@@ -268,6 +398,59 @@
         </div>
     </section>
 
+        <!-- Collaborations Section -->
+    <section class="collaborations-section">
+        <div class="container">
+            <h2 class="section-title">Collaborations</h2>
+            <p class="section-subtitle">Strategic partnerships with industry leaders and global institutions</p>
+            
+            <div class="slider-container">
+                <div class="logos-slider collaborations-slider">
+                    <div class="logos-track">
+                        <!-- Set A -->
+                        <div class="logo-item">
+                            <img src="assets/images/collaboration/1.png" alt="TATA Technologies">
+                        </div>
+                        <div class="logo-item">
+                            <img src="assets/images/collaboration/2.png" alt="C4i4 Lab">
+                        </div>
+                        <div class="logo-item">
+                            <img src="assets/images/collaboration/3.png" alt="Sahyadri Hospitals">
+                        </div>
+                        <div class="logo-item">
+                            <img src="assets/images/collaboration/4.png" alt="IBM">
+                        </div>
+                        <div class="logo-item">
+                            <img src="assets/images/collaboration/5.png" alt="WILO">
+                        </div>
+                        <div class="logo-item">
+                            <img src="assets/images/collaboration/6.png" alt="AUTOTECHNOLOGY">
+                        </div>
+                        <!-- Set B (Duplicate for seamless loop) -->
+                        <div class="logo-item">
+                            <img src="assets/images/collaboration/1.png" alt="TATA Technologies">
+                        </div>
+                        <div class="logo-item">
+                            <img src="assets/images/collaboration/2.png" alt="C4i4 Lab">
+                        </div>
+                        <div class="logo-item">
+                            <img src="assets/images/collaboration/3.png" alt="Sahyadri Hospitals">
+                        </div>
+                        <div class="logo-item">
+                            <img src="assets/images/collaboration/4.png" alt="IBM">
+                        </div>
+                        <div class="logo-item">
+                            <img src="assets/images/collaboration/5.png" alt="WILO">
+                        </div>
+                        <div class="logo-item">
+                            <img src="assets/images/collaboration/6.png" alt="AUTOTECHNOLOGY">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Placements Section -->
     <section class="placements-section" id="industry">
         <div class="container">
@@ -280,68 +463,52 @@
                         <!-- Set A -->
                         <div class="logo-item">
                             <img src="assets/images/placements/1.png" alt="CLSA">
-                            <p>CLSA</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/2.png" alt="Club Mahindra">
-                            <p>ClubMahindra</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/3.png" alt="Colgate">
-                            <p>Colgate</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/4.png" alt="CREST">
-                            <p>CREST</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/5.png" alt="CYBAGE">
-                            <p>CYBAGE</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/6.png" alt="datametica">
-                            <p>datametica</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/7.png" alt="dm">
-                            <p>dm</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/8.png" alt="TCS">
-                            <p>TCS</p>
                         </div>
                         <!-- Set B (Duplicate for seamless loop) -->
                         <div class="logo-item">
                             <img src="assets/images/placements/1.png" alt="CLSA">
-                            <p>CLSA</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/2.png" alt="Club Mahindra">
-                            <p>ClubMahindra</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/3.png" alt="Colgate">
-                            <p>Colgate</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/4.png" alt="CREST">
-                            <p>CREST</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/5.png" alt="CYBAGE">
-                            <p>CYBAGE</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/6.png" alt="datametica">
-                            <p>datametica</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/7.png" alt="dm">
-                            <p>dm</p>
                         </div>
                         <div class="logo-item">
                             <img src="assets/images/placements/8.png" alt="TCS">
-                            <p>TCS</p>
                         </div>
                     </div>
                 </div>
@@ -368,70 +535,7 @@
         </div> -->
     </section>
 
-    <!-- Collaborations Section -->
-    <section class="collaborations-section">
-        <div class="container">
-            <h2 class="section-title">Collaborations</h2>
-            <p class="section-subtitle">Strategic partnerships with industry leaders and global institutions</p>
-            
-            <div class="slider-container">
-                <div class="logos-slider collaborations-slider">
-                    <div class="logos-track">
-                        <!-- Set A -->
-                        <div class="logo-item">
-                            <img src="assets/images/collaboration/1.png" alt="TATA Technologies">
-                            <p>TATA TECHNOLOGIES</p>
-                        </div>
-                        <div class="logo-item">
-                            <img src="assets/images/collaboration/2.png" alt="C4i4 Lab">
-                            <p>C4i4 LAB</p>
-                        </div>
-                        <div class="logo-item">
-                            <img src="assets/images/collaboration/3.png" alt="Sahyadri Hospitals">
-                            <p>Sahyadri Hospitals</p>
-                        </div>
-                        <div class="logo-item">
-                            <img src="assets/images/collaboration/4.png" alt="IBM">
-                            <p>IBM</p>
-                        </div>
-                        <div class="logo-item">
-                            <img src="assets/images/collaboration/5.png" alt="WILO">
-                            <p>WILO</p>
-                        </div>
-                        <div class="logo-item">
-                            <img src="assets/images/collaboration/6.png" alt="AUTOTECHNOLOGY">
-                            <p>AUTOTECHNOLOGY</p>
-                        </div>
-                        <!-- Set B (Duplicate for seamless loop) -->
-                        <div class="logo-item">
-                            <img src="assets/images/collaboration/1.png" alt="TATA Technologies">
-                            <p>TATA TECHNOLOGIES</p>
-                        </div>
-                        <div class="logo-item">
-                            <img src="assets/images/collaboration/2.png" alt="C4i4 Lab">
-                            <p>C4i4 LAB</p>
-                        </div>
-                        <div class="logo-item">
-                            <img src="assets/images/collaboration/3.png" alt="Sahyadri Hospitals">
-                            <p>Sahyadri Hospitals</p>
-                        </div>
-                        <div class="logo-item">
-                            <img src="assets/images/collaboration/4.png" alt="IBM">
-                            <p>IBM</p>
-                        </div>
-                        <div class="logo-item">
-                            <img src="assets/images/collaboration/5.png" alt="WILO">
-                            <p>WILO</p>
-                        </div>
-                        <div class="logo-item">
-                            <img src="assets/images/collaboration/6.png" alt="AUTOTECHNOLOGY">
-                            <p>AUTOTECHNOLOGY</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Testimonials Section -->
     <section class="testimonials-section">
@@ -556,7 +660,7 @@
         </div>
         <div class="footer-copybar">
             <div class="container">
-                <p>© 2025 Vishwakarma University, Bangalore. All Rights Reserved.</p>
+                <p>© 2026 Vishwakarma University, Pune. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
@@ -565,7 +669,7 @@
     <div class="sticky-mobile-buttons">
         <button class="sticky-btn primary" id="applyStickyBtn">
             <i class="fas fa-file-alt"></i>
-            Apply Now
+            Placement Details
         </button>
         <button class="sticky-btn secondary" id="brochureStickyBtn">
             <i class="fas fa-download"></i>
@@ -601,32 +705,48 @@
                         </div>
                         
                         <div class="form-group">
-                            <select id="modalProgramme" required>
-                                <option value="" disabled selected>Select Programme</option>
-                                <option value="art-design">Art & Design</option>
-                                <option value="architecture">Architecture</option>
-                                <option value="commerce">Commerce & Management</option>
-                                <option value="humanities">Humanities & Social Sciences</option>
-                                <option value="law">Law</option>
-                                <option value="media">Media & Communication</option>
-                                <option value="pharmacy">Pharmacy</option>
-                                <option value="science">Science & Technology</option>
+                            <select id="modalState" required>
+                                <option value="" disabled selected>Select State</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="West Bengal">West Bengal</option>
                             </select>
-                            <i class="fas fa-graduation-cap"></i>
+                            <i class="fas fa-map-marker-alt"></i>
                         </div>
                         
                         <div class="form-group">
-                            <select id="modalLevel" required>
-                                <option value="" disabled selected>Study Level</option>
-                                <option value="ug">Undergraduate</option>
-                                <option value="pg">Postgraduate</option>
-                                <option value="phd">PhD/Doctoral</option>
+                            <select id="modalCity" required>
+                                <option value="" disabled selected>Select City</option>
                             </select>
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-city"></i>
+                        </div>
+
+                        <div class="form-group">
+                            <select id="modalCourse" required>
+                                <option value="" disabled selected>Select Course</option>
+                                <option value="B.Tech">B.Tech</option>
+                                <option value="BBA">BBA</option>
+                                <option value="MBA">MBA</option>
+                                <option value="LLB">LLB</option>
+                                <option value="BA LLB">BA LLB</option>
+                                <option value="BBA LLB">BBA LLB</option>
+                                <option value="M.Tech">M.Tech</option>
+                                <option value="MCA">MCA</option>
+                                <option value="B.Pharm">B.Pharm</option>
+                                <option value="M.Pharm">M.Pharm</option>
+                            </select>
+                            <i class="fas fa-book"></i>
                         </div>
                         
                         <button type="submit" class="btn-apply modal-submit-btn">
-                            <span>Apply Now</span>
+                            <span>Register Now</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </form>
@@ -635,28 +755,13 @@
         </div>
     </div>
 
-    <!-- Success Modal -->
-    <!-- <div class="modal-overlay" id="successModal">
-        <div class="modal-container">
-            <div class="modal-content success-modal">
-                <div class="modal-header">
-                    <h3>Application Submitted Successfully!</h3>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <p>Thank you for applying to Vishwakarma University. Our admissions team will contact you within 24 hours with further details.</p>
-                    <p>You will receive an email with your application reference number and programme brochure.</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn-apply" id="successModalCloseBtn">Continue</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
+    <div id="citiesBridge" style="display:none;" aria-hidden="true">
+        <select id="listBox"></select>
+        <select id="secondlist"></select>
+    </div>
 
+    <script src="js/jquery.js"></script>
+<script src="js/cities.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
